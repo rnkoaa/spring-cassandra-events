@@ -53,6 +53,20 @@ dependencies {
 }
 
 
+compileJava.dependsOn(processResources)
+
+bootRun {
+	addResources = true
+	
+	//add system properties
+	systemProperties System.properties
+}
+
+bootRepackage {
+	mainClass 'com.richard.EventProcessApplication'
+	executable true
+}
+
 eclipse {
 	classpath {
 		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')

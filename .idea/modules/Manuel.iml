@@ -95,6 +95,5 @@
     <orderEntry type="library" name="Gradle: com.datastax.cassandra:cassandra-driver-extras:3.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.datastax.cassandra:cassandra-driver-dse:3.0.0-rc1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:16.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: io.undertow:undertow-servlet:1.3.23.Final" level="project" />
   </component>
 </module>
