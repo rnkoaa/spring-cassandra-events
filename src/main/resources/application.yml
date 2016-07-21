@@ -3,8 +3,19 @@ spring:
     cassandra:
       cluster-name: "manuel_cassandra"
       keyspace-name: "manuel"
-      contact-points: "localhost"
-      port: 9042
 
-server:
-  port: 8083
+---
+spring:
+  profiles: "docker_local"
+
+  data:
+    cassandra:
+      contact-points: "localhost"
+
+---
+spring:
+  profiles: "docker_machine"
+  data:
+    cassandra:
+      contact-points: "192.168.99.100"
+
