@@ -1,4 +1,4 @@
-package com.richard.config;
+package com.richard.context;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;

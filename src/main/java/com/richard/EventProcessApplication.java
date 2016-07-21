@@ -1,23 +1,18 @@
 package com.richard;
 
 import com.datastax.driver.core.*;
-import com.datastax.driver.core.policies.DCAwareRoundRobinPolicy;
-import com.datastax.driver.core.policies.DefaultRetryPolicy;
-import com.datastax.driver.core.policies.TokenAwarePolicy;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
-import com.richard.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
-import org.springframework.boot.context.embedded.undertow.UndertowBuilderCustomizer;
-import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+
+//import io.undertow.Undertow;
 
 /**
  * Created using Intellij IDE
@@ -27,8 +22,6 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 public class EventProcessApplication {
     private static final Logger LOG = LoggerFactory.getLogger(EventProcessApplication.class);
 
-    //private static Cluster cluster;
-
     @Autowired
     private Session session;
 
@@ -36,24 +29,11 @@ public class EventProcessApplication {
         SpringApplication.run(EventProcessApplication.class, args);
     }
 
-/*
-    @Autowired
-    SimpleUserRepository repository;*/
-
     @Bean
     public CommandLineRunner run() {
+       // System.setProperty("spring.profiles.active", "docker_machine");
         return args -> {
-           /* // Connect to the cluster and keyspace "demo"
-            cluster = Cluster
-                    .builder()
-                    .addContactPoint("127.0.0.1")
-                    .withRetryPolicy(DefaultRetryPolicy.INSTANCE)
-                    *//*.withLoadBalancingPolicy(
-                            new TokenAwarePolicy(new DCAwareRoundRobinPolicy()))*//*
-                    .build();
-            session = cluster.connect("example");*/
-
-            selectStatement();
+            //selectStatement();
             //saveBoundStatement();
 
 
@@ -122,21 +102,11 @@ public class EventProcessApplication {
     }
 
     /*@Bean
-    public UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory() {
-        UndertowEmbeddedServletContainerFactory factory =
-                new UndertowEmbeddedServletContainerFactory();
-
-        factory.addBuilderCustomizers(new UndertowBuilderCustomizer() {
-            @Override
-            public void customize(ServerProperties.Undertow.Builder builder) {
-
-            }
-            *//*@Override
-            public void customize() {
-                builder.addHttpListener(8080, "0.0.0.0");
-            }*//*
+    public UndertowEmbeddedServletContainerFactory embeddedServletContainerFactory(@Value("${server.port}") int serverPort) {
+        UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
+        factory.addBuilderCustomizers((UndertowBuilderCustomizer) builder -> {
+            builder.addHttpListener(serverPort, "0.0.0.0");
         });
-
         return factory;
     }*/
 

@@ -11,10 +11,18 @@
             <!--<appender-ref ref="FILE" />-->
         <!--</logger>-->
     <!--</springProfile>-->
-    <logger name="com.richard" level="INFO" additivity="false">
+    <logger name="com.richard" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <!--<appender-ref ref="FILE"/>-->
     </logger>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.apache.http" level="INFO"/>
+    <logger name="com.datastax.driver" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
 
     <!-- using janino configuration -->
     <!--<?xml version="1.0" encoding="UTF-8"?>

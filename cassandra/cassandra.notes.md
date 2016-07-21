@@ -75,3 +75,83 @@ https://docs.datastax.com/en/developer/java-driver/3.0/supplemental/manual/pagin
 Async/Reactive
 https://docs.datastax.com/en/developer/java-driver/3.0/supplemental/manual/async/?local=true&nav=toc
         
+-Dspring.profiles.active=docker_machine
+
+
+spring data cassandra
+
+liquibase.enabled: false;
+
+spring-data-cassandra
+cassandra-driver-core
+cassandra-driver-mapping
+
+
+Configuration
+EnableCassandraRepositories
+CassandraConfig extends AbstractCassandraConfiguration {
+	
+	Bean
+	CassandraClusterFactoryBean
+		cluster.setContactPoints("ip")
+		cluster.setPort(9042)
+		
+	Bean
+	CassandraMappingContext cassandraMappingContext
+		return new BasicCan....
+	
+	Bean
+	String getKeySpace()
+		return "cwt"
+}
+
+
+Table
+class Member
+
+primarykeycolumn(name, type: PrimaryKeyType.Partioned, ordinal=0)
+username
+...
+
+column
+email
+
+
+MemberRepository extends CassandraRepository<Member> {
+	
+	
+	@Query("select * from members where username = ?)"
+	Iterable<Member> findByUsername(string username)
+}
+
+session = cluster.connect("cwt");
+CQLOperations cops = new CQLTemplate(session)
+
+Insert example = QueryBuilder.InsertInto("table)
+					.value("key", "value");
+cops.execute(example)
+
+Statement stmt = cops.getSession().prepare("insert into table (columns) values (????) ...).bind("values");
+cops.execute(stmt)
+
+ResultSet rset = cops.query("select * from tbl")
+while(!rset.isExhausted(){
+row = rset.getOne()
+string = row.getString
+...
+....
+}
+
+===
+cql template
+
+CassandraOperations ops = new CassandraTemplate(session);
+ops.insert(new Person())
+
+Select s = QueryBuilder.select().from("tbl")
+.where(QueryBuilder.eq("id", "val"));
+
+p = ops.selectOne(s, Person.class)
+
+D3.js
+bl.ocks.org/andredumas

@@ -1,75 +1,99 @@
 buildscript {
-	ext {
-		springBootVersion = '1.3.6.RELEASE'
-		springDataCassandraVersion = '1.4.2.RELEASE'
-		cassandraVersion = '3.0.3'
-		cassandraDSEVersion = '3.0.0-rc1'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '1.3.6.RELEASE'
+        springDataCassandraVersion = '1.4.2.RELEASE'
+        cassandraVersion = '3.0.3'
+        cassandraDSEVersion = '3.0.0-rc1'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        //classpath("org.springframework:springloaded:1.2.4.RELEASE")
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'manuel'
-	version = '0.0.1-SNAPSHOT'
+    baseName = 'manuel'
+    version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
+/*configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+}*/
 
 dependencies {
-	/*compile("org.springframework.boot:spring-boot-starter-data-cassandra"){
-		exclude group: "com.datastax.cassandra"
-		exclude module: "spring-data-cassandra"
-	}*/
-	compile("com.datastax.cassandra:cassandra-driver-core:${cassandraVersion}")
-	compile("com.datastax.cassandra:cassandra-driver-dse:${cassandraDSEVersion}")
-	compile("com.datastax.cassandra:cassandra-driver-mapping:${cassandraVersion}")
-	compile("com.datastax.cassandra:cassandra-driver-extras:${cassandraVersion}")
-	
-	/*compile("org.springframework.data:spring-data-cassandra:${springDataCassandraVersion}"){
-		exclude group: "com.datastax.cassandra"
-	}*/
-	compile('org.springframework.boot:spring-boot-devtools')
-	compile('org.projectlombok:lombok:1.16.6')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.boot:spring-boot-starter-web'){
-		exclude module: 'spring-boot-starter-tomcat'
-	}
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.boot:spring-boot-starter-undertow')
-}
+    /*compile("org.springframework.boot:spring-boot-starter-data-cassandra"){
+        exclude group: "com.datastax.cassandra"
+        exclude module: "spring-data-cassandra"
+    }*/
+    compile("com.datastax.cassandra:cassandra-driver-core:${cassandraVersion}")
+    compile("com.datastax.cassandra:cassandra-driver-dse:${cassandraDSEVersion}")
+    compile("com.datastax.cassandra:cassandra-driver-mapping:${cassandraVersion}")
+    compile("com.datastax.cassandra:cassandra-driver-extras:${cassandraVersion}")
 
+    /*compile("org.springframework.data:spring-data-cassandra:${springDataCassandraVersion}"){
+        exclude group: "com.datastax.cassandra"
+    }*/
+    compile('org.springframework.boot:spring-boot-devtools')
+    compile('org.projectlombok:lombok:1.16.6')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-web') {
+       // exclude module: "spring-boot-starter-tomcat"
+    }
+    //compile('org.springframework.boot:spring-boot-starter-undertow')
+
+    compile('io.reactivex:rxjava:1.1.7')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
 
 compileJava.dependsOn(processResources)
 
 bootRun {
-	addResources = true
-	
-	//add system properties
-	systemProperties System.properties
+    addResources = true
+
+    //add system properties
+    systemProperties System.properties
 }
 
 bootRepackage {
-	mainClass 'com.richard.EventProcessApplication'
-	executable true
+    mainClass 'com.richard.EventProcessApplication'
+    executable true
 }
 
+def loadExtraProperties(String fileName) {
+    def props = new Properties()
+    props.load(new FileInputStream(fileName))
+
+    props.each { key, val ->
+        //	project.set(key, val)
+        ext.key = val;
+    }
+}
+
+/*idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}*/
+
 eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
+    classpath {
+        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
 }
