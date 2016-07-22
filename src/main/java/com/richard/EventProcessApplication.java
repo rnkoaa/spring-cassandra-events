@@ -25,6 +25,9 @@ public class EventProcessApplication {
     @Autowired
     private Session session;
 
+    @Autowired
+    RequestEventCSVParser requestEventCSVParser;
+
     public static void main(String[] args) {
         SpringApplication.run(EventProcessApplication.class, args);
     }
@@ -38,7 +41,7 @@ public class EventProcessApplication {
 
 
             //cluster.close();
-
+            requestEventCSVParser.processResponseEvents();
         };
     }
 
