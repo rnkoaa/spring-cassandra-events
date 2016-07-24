@@ -41,7 +41,7 @@ public class EventProcessApplication {
 
 
             //cluster.close();
-            requestEventCSVParser.processResponseEvents();
+            //requestEventCSVParser.processCSV();
         };
     }
 

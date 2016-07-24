@@ -82,10 +82,13 @@ results.subscribe(new Observer<ResultSet>() {
         ExecutorService executor = MoreExecutors.getExitingExecutorService(
                 (ThreadPoolExecutor) Executors.newFixedThreadPool(THREADS));
 
-        BoundStatement boundStatement = createBatchEvent.bind(new RequestEventIterator(requestEvents).next());
-        ResultSetFuture future = session.executeAsync(boundStatement);
-        // Observable<ResultSet> result = ResultSets
-        Futures.addCallback(future, new IngestCallback(), executor);
+        RequestEventIterator requestEventIterator = new RequestEventIterator(requestEvents);
+        while (requestEventIterator.hasNext()) {
+            BoundStatement boundStatement = createBatchEvent.bind(requestEventIterator.next());
+            ResultSetFuture future = session.executeAsync(boundStatement);
+            // Observable<ResultSet> result = ResultSets
+            Futures.addCallback(future, new IngestCallback(), executor);
+        }
     }
 
     public static class RequestEventIterator implements Iterator<Object[]> {

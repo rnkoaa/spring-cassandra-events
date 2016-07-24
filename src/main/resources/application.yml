@@ -5,9 +5,7 @@ spring:
       cluster-name: "manuel_cassandra"
       keyspace-name: "manuel"
   profiles:
-    active: "docker_machine"
-server:
-  port: 9080
+    active: "docker_local"
 
 ---
 spring:

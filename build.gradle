@@ -49,10 +49,10 @@ dependencies {
     }*/
     compile ('com.opencsv:opencsv:3.7')
 
-    compile('org.springframework.boot:spring-boot-devtools')
+    //compile('org.springframework.boot:spring-boot-devtools')
     compile('org.projectlombok:lombok:1.16.6')
-    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-    compile('org.springframework.boot:spring-boot-starter-web') {
+    //compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter') {
        // exclude module: "spring-boot-starter-tomcat"
     }
     //compile('org.springframework.boot:spring-boot-starter-undertow')
