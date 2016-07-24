@@ -12,8 +12,6 @@ import org.springframework.util.StopWatch;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -79,16 +77,15 @@ public class RequestEventCSVParserTests {
 
     private List<RequestEvent> mapToRequestEvents(List<String[]> subLists) {
         return subLists.stream()
-                    .map(e -> {
-                        RequestEvent requestEvent = new RequestEvent();
-                        requestEvent.setId(UUID.fromString(e[0]));
-                        requestEvent.setEventTime(LocalDateTime.parse(e[1]));
-                        requestEvent.setResourceType(e[2]);
-                        requestEvent.setServerIp(e[3]);
-                        requestEvent.setResourceId(Integer.valueOf(e[4]));
-                        requestEvent.setResponseCode(Integer.valueOf(e[5]));
-                        return requestEvent;
-                    })
-                    .collect(Collectors.toList());
+                .map(e -> RequestEvent.builder()
+                        .eventTime(LocalDateTime.parse(e[1]))
+                        .id(UUID.fromString(e[0]))
+                        .resourceId(Integer.valueOf(e[4]))
+                        .responseCode(Integer.valueOf(e[5]))
+                        .serverIp(e[3])
+                        .resourceType(e[2])
+                        .build()
+                )
+                .collect(Collectors.toList());
     }
 }
